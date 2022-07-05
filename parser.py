@@ -45,7 +45,6 @@ def get_content(html):
             'location': item.find('span', class_='a-card__param').get_text(strip=True),
             'link': HOST + item.find('a', class_='a-card__link').get('href')
         })
-        print(cars)
     return cars
 
 
