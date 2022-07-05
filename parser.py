@@ -1,9 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import os
 
-
-URL = 'https://kolesa.kz/cars/mercedes-benz/karaganda/?year[from]=2019'
+URL = input('Введите URL: ')
+URL = URL.strip()
+#URL = 'https://kolesa.kz/cars/mercedes-benz/sprinter/karaganda/?auto-custom=2'
 HEADERS = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36',
     'accept': '*/*'}
@@ -12,7 +14,7 @@ FILE = 'D:\cars.csv'
 
 
 def get_html(url, params=None):
-    r = requests.get(URL, headers=HEADERS, params=params)
+    r = requests.get(URL, headers=HEADERS, params=params, allow_redirects=True)
     return r
 
 
@@ -58,11 +60,8 @@ def save_file(items, path):
 
 def parse():
     html = get_html(URL)
-    # print(html)
     if html.status_code == 200:
         cars = []
-        # cars = get_content(html.text)
-        # print(cars)
         pages_count = get_pages_count(html.text)
         for page in range(1, pages_count + 1):
             print(f'Парсинг страницы {page} из {pages_count}...')
@@ -70,6 +69,7 @@ def parse():
             cars.extend(get_content(html.text))
         save_file(cars, FILE)
         print(f'Получено {len(cars)} автомобилей')
+        os.startfile(FILE)
     else:
         print('Error')
 
