@@ -66,7 +66,7 @@ def parse():
         pages_count = get_pages_count(html.text)
         for page in range(1, pages_count + 1):
             print(f'Парсинг страницы {page} из {pages_count}...')
-            html = get_html(URL, params={'page': page})
+            html = get_html(URL, params={'2&page': page})
             cars.extend(get_content(html.text))
         # print(pages_count)
         # for value in cars:
